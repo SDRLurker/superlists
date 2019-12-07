@@ -1,10 +1,9 @@
-import time
-import unittest
-
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+import time
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
         # https://codedragon.tistory.com/6114
         # C:\Users\sdrlu\Anaconda\Library\bin
@@ -20,7 +19,7 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # 영애씨는 온라인 일정관리 앱을 알게 되어 홈페이지에 방문한다.
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # 홈페이지에 방문해 보니 제목이 "일정관리"인 것을 보고 홈페이지에 올바르게 방문한 것을 확인한다.
         self.assertIn('일정관리', self.browser.title)
@@ -50,6 +49,7 @@ class NewVisitorTest(unittest.TestCase):
         # 다시 페이지를 새로고침해서 입력한 일정 두 가지 모두 목록에 표시한다.
         self.check_for_row_in_list_table('1: 시장에서 미역 사기')
         self.check_for_row_in_list_table('2: 미역을 물에 불리기')
+        self.fail('Finish the test!')
 
         # 영애씨는 일정 목록이 사이트에 올바로 저장되었는지 궁금해서
         # 고유 URL 생성을 확인한다.
