@@ -1,5 +1,8 @@
+import time
 import unittest
+
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 class NewVisitorTest(unittest.TestCase):
     def setUp(self):
@@ -32,7 +35,7 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(1)
 
         table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_element_by_id('tr')
+        rows = table.find_element_by_tag_name('tr')
         self.assertTrue(any(row.text == '1: 시장에서 미역 사기' for row in rows))
 
         # 영애씨는 추가로 할일 텍스트박스에 입력할 수 있고
@@ -47,7 +50,5 @@ class NewVisitorTest(unittest.TestCase):
         # 영애씨는 URL을 방문하고 일정 목록이 올바르게 있음을 확인한다.
 
         # 영애씨는 이제 만족하고 잠을 자러간다.
-
-
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
