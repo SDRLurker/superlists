@@ -13,6 +13,11 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def check_for_row_in_list_table(self, row_text):
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
     def test_can_start_a_list_and_retrieve_it_later(self):
         # 영애씨는 온라인 일정관리 앱을 알게 되어 홈페이지에 방문한다.
         self.browser.get('http://localhost:8000')
@@ -33,18 +38,20 @@ class NewVisitorTest(unittest.TestCase):
         # "1: 시장에서 미역 사기"가 첫 번째 할일로 일정 목록에서 보여진다.
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
-
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_element_by_tag_name('tr')
-        self.assertTrue(any(row.text == '1: 시장에서 미역 사기' for row in rows))
+        self.check_for_row_in_list_table('1: 시장에서 미역 사기')
 
         # 영애씨는 추가로 할일 텍스트박스에 입력할 수 있고
         # "미역을 물에 불리기"라고 입력한다.
-        self.fail('테스트 종료')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('미역을 물에 불리기')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
 
         # 다시 페이지를 새로고침해서 입력한 일정 두 가지 모두 목록에 표시한다.
+        self.check_for_row_in_list_table('1: Buy peacock feathers')
+        self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
 
-        # 영애씨는 일정 목록이 사이트에 올바로 저장되었는지 궁금해서
+    # 영애씨는 일정 목록이 사이트에 올바로 저장되었는지 궁금해서
         # 고유 URL 생성을 확인한다.
 
         # 영애씨는 URL을 방문하고 일정 목록이 올바르게 있음을 확인한다.
