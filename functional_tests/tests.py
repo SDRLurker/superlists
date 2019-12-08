@@ -66,7 +66,6 @@ class NewVisitorTest(LiveServerTestCase):
         # 다시 페이지를 새로고침해서 입력한 일정 두 가지 모두 목록에 표시한다.
         self.wait_for_row_in_list_table('1: 시장에서 미역 사기')
         self.wait_for_row_in_list_table('2: 미역을 물에 불리기')
-        self.fail('Finish the test!')
 
         # 영애씨는 일정 목록이 사이트에 올바로 저장되었는지 궁금해서
         # 고유 URL 생성을 확인한다.
